@@ -1,0 +1,66 @@
+{
+  "languages": [
+    "python",
+    "javascript",
+    "typescript",
+    "java",
+    "c",
+    "c++",
+    "c#",
+    "go",
+    "rust",
+    "php",
+    "ruby",
+    "sql"
+  ],
+  "frameworks": [
+    "django",
+    "flask",
+    "fastapi",
+    "react",
+    "next.js",
+    "node.js",
+    "express",
+    "spring boot",
+    "laravel"
+  ],
+  "databases": [
+    "postgresql",
+    "mysql",
+    "mongodb",
+    "redis",
+    "sqlite",
+    "oracle",
+    "firebase"
+  ],
+  "cloud_devops": [
+    "aws",
+    "ec2",
+    "s3",
+    "lambda",
+    "docker",
+    "kubernetes",
+    "github actions",
+    "ci/cd",
+    "linux",
+    "nginx"
+  ],
+  "tools": [
+    "git",
+    "github",
+    "postman",
+    "jira",
+    "swagger",
+    "rest api",
+    "graphql"
+  ],
+  "ai_ml": [
+    "machine learning",
+    "nlp",
+    "scikit-learn",
+    "pandas",
+    "numpy",
+    "tensorflow",
+    "pytorch"
+  ]
+}

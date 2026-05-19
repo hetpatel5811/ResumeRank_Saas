@@ -1,0 +1,115 @@
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.92)),
+    radial-gradient(circle at 20% 20%, rgba(37, 99, 235, 0.5), transparent 30%);
+}
+
+.auth-bg-orb {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  filter: blur(20px);
+  opacity: 0.55;
+}
+
+.orb-one {
+  background: #2563eb;
+  top: -90px;
+  left: -80px;
+}
+
+.orb-two {
+  background: #7c3aed;
+  bottom: -120px;
+  right: -90px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  padding: 42px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.28);
+  position: relative;
+  z-index: 2;
+}
+
+.auth-logo {
+  width: 62px;
+  height: 62px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  margin-bottom: 22px;
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.35);
+}
+
+.auth-card h1 {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: -1px;
+}
+
+.auth-subtitle {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 10px 0 26px;
+}
+
+.input-group {
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  margin-bottom: 14px;
+}
+
+.input-group svg {
+  color: var(--muted);
+}
+
+.input-group input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+}
+
+.primary-btn {
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.primary-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.auth-footer {
+  margin-top: 24px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.auth-footer a {
+  color: var(--primary);
+  font-weight: 800;
+}
