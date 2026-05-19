@@ -1,17 +1,21 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
+  BriefcaseBusiness,
   LayoutDashboard,
   FileSearch,
   History,
   LogOut,
-  Sparkles,
 } from "lucide-react";
 
 function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isActive = (path) => location.pathname === path;
+  const pathname = location.pathname;
+
+  const isDashboard = pathname.startsWith("/dashboard");
+  const isAnalyze = pathname.startsWith("/analyze");
+  const isHistory = pathname.startsWith("/history") || pathname.startsWith("/result");
 
   const logout = () => {
     localStorage.removeItem("resume_rank_token");
@@ -22,26 +26,26 @@ function Navbar() {
     <aside className="sidebar">
       <div className="brand">
         <div className="brand-icon">
-          <Sparkles size={24} />
+          <BriefcaseBusiness size={22} />
         </div>
         <div>
           <h2>ResumeRank</h2>
-          <p>AI Resume Match</p>
+          <p>Resume Intelligence</p>
         </div>
       </div>
 
       <nav className="nav-links">
-        <Link className={isActive("/dashboard") ? "active" : ""} to="/dashboard">
+        <Link className={isDashboard ? "active" : ""} to="/dashboard">
           <LayoutDashboard size={20} />
           Dashboard
         </Link>
 
-        <Link className={isActive("/analyze") ? "active" : ""} to="/analyze">
+        <Link className={isAnalyze ? "active" : ""} to="/analyze">
           <FileSearch size={20} />
           Analyze Resume
         </Link>
 
-        <Link className={isActive("/history") ? "active" : ""} to="/history">
+        <Link className={isHistory ? "active" : ""} to="/history">
           <History size={20} />
           History
         </Link>

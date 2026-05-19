@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, ArrowRight, Sparkles } from "lucide-react";
+import { Mail, Lock, ArrowRight, BriefcaseBusiness } from "lucide-react";
 import api from "../api/api";
 
 function Register() {
@@ -43,7 +43,7 @@ function Register() {
 
       <div className="auth-card">
         <div className="auth-logo">
-          <Sparkles size={28} />
+          <BriefcaseBusiness size={24} />
         </div>
 
         <h1>Create Account</h1>

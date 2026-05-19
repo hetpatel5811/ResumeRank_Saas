@@ -134,7 +134,10 @@ function Result() {
 
           <div className="suggestion-list">
             {result.suggestions.map((suggestion, index) => (
-              <SuggestionCard suggestion={suggestion} key={index} />
+              <SuggestionCard
+                suggestion={suggestion}
+                key={suggestion.id || `${suggestion.category}-${index}`}
+              />
             ))}
           </div>
         </section>

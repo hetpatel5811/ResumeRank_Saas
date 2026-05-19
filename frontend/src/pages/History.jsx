@@ -84,7 +84,9 @@ function History() {
                       <span className="status-pill">{item.status}</span>
                     </td>
                     <td>
-                      <strong>{item.overall_score}%</strong>
+                      <strong>
+                        {typeof item.overall_score === "number" ? `${item.overall_score}%` : "--"}
+                      </strong>
                     </td>
                     <td>{new Date(item.created_at).toLocaleString()}</td>
                     <td>

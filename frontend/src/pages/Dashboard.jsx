@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FileSearch, History, TrendingUp, Zap } from "lucide-react";
+import { FileSearch, History, TrendingUp, Gauge } from "lucide-react";
 import Navbar from "../components/Navbar";
 import api from "../api/api";
 
@@ -24,7 +24,7 @@ function Dashboard() {
     fetchData();
   }, []);
 
-  const latestScore = history.length > 0 ? history[0].overall_score : 0;
+  const latestScore = history.length > 0 ? history[0].overall_score : null;
 
   return (
     <div className="app-shell">
@@ -51,8 +51,8 @@ function Dashboard() {
           </div>
 
           <div className="hero-glass-card">
-            <Zap size={34} />
-            <h2>{latestScore || "--"}</h2>
+            <Gauge size={34} />
+            <h2>{typeof latestScore === "number" ? latestScore : "--"}</h2>
             <p>Latest Match Score</p>
           </div>
         </section>
@@ -69,7 +69,7 @@ function Dashboard() {
           <div className="stat-card">
             <TrendingUp />
             <div>
-              <h3>{latestScore || 0}%</h3>
+              <h3>{typeof latestScore === "number" ? `${latestScore}%` : "--"}</h3>
               <p>Latest Score</p>
             </div>
           </div>
@@ -109,7 +109,7 @@ function Dashboard() {
                     <h3>{item.resume_filename}</h3>
                     <p>{new Date(item.created_at).toLocaleString()}</p>
                   </div>
-                  <span>{item.overall_score}%</span>
+                  <span>{typeof item.overall_score === "number" ? `${item.overall_score}%` : "--"}</span>
                 </Link>
               ))}
             </div>

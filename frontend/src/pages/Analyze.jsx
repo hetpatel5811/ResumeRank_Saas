@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UploadCloud, FileText, Sparkles } from "lucide-react";
+import { UploadCloud, FileText, ShieldCheck } from "lucide-react";
 import Navbar from "../components/Navbar";
 import api from "../api/api";
 
@@ -90,7 +90,7 @@ function Analyze() {
             </div>
 
             <div className="scan-info-card">
-              <Sparkles size={24} />
+              <ShieldCheck size={24} />
               <p>
                 Your resume will be scored using TF-IDF keyword similarity,
                 skills matching, experience detection, and ATS format checks.

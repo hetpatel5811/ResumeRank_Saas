@@ -1,12 +1,21 @@
 function ScoreCircle({ score = 0, label = "Overall Match" }) {
-  const safeScore = Math.min(Math.max(score, 0), 100);
+  const safeScore = Math.min(Math.max(Number(score) || 0, 0), 100);
+
+  const color =
+    safeScore >= 80
+      ? "#0f9f6f"
+      : safeScore >= 60
+      ? "#0f6ef4"
+      : safeScore >= 40
+      ? "#d97706"
+      : "#dc2626";
 
   return (
     <div className="score-circle-card">
       <div
         className="score-circle"
         style={{
-          background: `conic-gradient(#10b981 ${safeScore * 3.6}deg, #e5e7eb 0deg)`,
+          background: `conic-gradient(${color} ${safeScore * 3.6}deg, #e2e8f3 0deg)`,
         }}
       >
         <div className="score-inner">
