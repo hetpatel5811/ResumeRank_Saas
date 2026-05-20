@@ -162,12 +162,14 @@ from app.services.file_parser import save_upload_file, extract_resume_text
 from app.services.scoring_engine import run_resume_scoring, extract_top_keywords
 from app.services.suggestion_engine import generate_suggestions
 from app.services.plan_service import get_scan_limit_for_plan
+from app.services.ats_audit_service import build_ats_audit
+from app.services.score_insight_service import build_score_diagnostics
 
 
 router = APIRouter(prefix="/api/scans", tags=["Scans"])
 
 
-def build_scan_response(scan: Scan, score_result: ScoreResult, suggestions):
+def build_scan_response(scan: Scan, score_result: ScoreResult, suggestions, ats_audit, score_diagnostics):
     return {
         "scan_id": scan.id,
         "resume_filename": scan.resume_filename,
@@ -180,7 +182,9 @@ def build_scan_response(scan: Scan, score_result: ScoreResult, suggestions):
         "missing_keywords": score_result.missing_keywords or [],
         "matched_skills": score_result.matched_skills or [],
         "missing_skills": score_result.missing_skills or [],
-        "suggestions": suggestions
+        "suggestions": suggestions,
+        "ats_audit": ats_audit,
+        "score_diagnostics": score_diagnostics,
     }
 
 
@@ -241,6 +245,12 @@ def analyze_resume(
     db.refresh(scan)
 
     score_data = run_resume_scoring(job_description, resume_text)
+    ats_audit = build_ats_audit(
+        resume_text=resume_text,
+        resume_filename=resume.filename,
+        job_description=job_description
+    )
+    score_diagnostics = build_score_diagnostics(score_data)
 
     score_result = ScoreResult(
         scan_id=scan.id,
@@ -278,7 +288,13 @@ def analyze_resume(
 
     db.commit()
 
-    return build_scan_response(scan, score_result, suggestions_data)
+    return build_scan_response(
+        scan=scan,
+        score_result=score_result,
+        suggestions=suggestions_data,
+        ats_audit=ats_audit,
+        score_diagnostics=score_diagnostics
+    )
 
 
 @router.get("/history", response_model=list[ScanHistoryItem])
@@ -348,6 +364,31 @@ def get_scan_detail(
         for suggestion in score_result.suggestions
     ]
 
+    score_data = {
+        "keyword_score": score_result.keyword_score,
+        "skills_score": score_result.skills_score,
+        "experience_score": score_result.experience_score,
+        "format_score": score_result.format_score,
+        "missing_keywords": score_result.missing_keywords or [],
+        "missing_skills": score_result.missing_skills or [],
+    }
+
+    score_diagnostics = build_score_diagnostics(score_data)
+    job_description_text = scan.job_description.raw_text if scan.job_description else ""
+
+    resume_text = ""
+    if scan.resume_s3_key and os.path.exists(scan.resume_s3_key):
+        try:
+            resume_text = extract_resume_text(scan.resume_s3_key)
+        except Exception:
+            resume_text = ""
+
+    ats_audit = build_ats_audit(
+        resume_text=resume_text,
+        resume_filename=scan.resume_filename,
+        job_description=job_description_text,
+    )
+
     return {
         "scan_id": scan.id,
         "resume_filename": scan.resume_filename,
@@ -363,7 +404,9 @@ def get_scan_detail(
         "missing_keywords": score_result.missing_keywords or [],
         "matched_skills": score_result.matched_skills or [],
         "missing_skills": score_result.missing_skills or [],
-        "suggestions": suggestions
+        "suggestions": suggestions,
+        "ats_audit": ats_audit,
+        "score_diagnostics": score_diagnostics,
     }
 
 

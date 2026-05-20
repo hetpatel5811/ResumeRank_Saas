@@ -7,6 +7,8 @@ import Analyze from "./pages/Analyze";
 import Result from "./pages/Result";
 import History from "./pages/History";
 import Billing from "./pages/Billing";
+import JobTracker from "./pages/JobTracker";
+import CareerTools from "./pages/CareerTools";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -58,6 +60,24 @@ function App() {
         element={
           <ProtectedRoute>
             <Billing />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/jobs"
+        element={
+          <ProtectedRoute>
+            <JobTracker />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/tools"
+        element={
+          <ProtectedRoute>
+            <CareerTools />
           </ProtectedRoute>
         }
       />

@@ -7,14 +7,19 @@ import api from "../api/api";
 function Dashboard() {
   const [user, setUser] = useState(null);
   const [history, setHistory] = useState([]);
+  const [analytics, setAnalytics] = useState(null);
 
   const fetchData = async () => {
     try {
-      const userRes = await api.get("/api/auth/me");
-      const historyRes = await api.get("/api/scans/history");
+      const [userRes, historyRes, analyticsRes] = await Promise.all([
+        api.get("/api/auth/me"),
+        api.get("/api/scans/history"),
+        api.get("/api/analytics/overview"),
+      ]);
 
       setUser(userRes.data);
       setHistory(historyRes.data);
+      setAnalytics(analyticsRes.data);
     } catch (err) {
       console.log(err);
     }
@@ -47,6 +52,12 @@ function Dashboard() {
               </Link>
               <Link to="/history" className="secondary-link">
                 View History
+              </Link>
+              <Link to="/jobs" className="secondary-link">
+                Job Tracker
+              </Link>
+              <Link to="/tools" className="secondary-link">
+                Career Tools
               </Link>
               {userPlan === "FREE" && (
                 <Link to="/billing" className="secondary-link">
@@ -93,6 +104,22 @@ function Dashboard() {
             <div>
               <h3>{userPlan}</h3>
               <p>Current Plan</p>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <FileSearch />
+            <div>
+              <h3>{analytics?.scans_last_30_days || 0}</h3>
+              <p>Scans (30d)</p>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <History />
+            <div>
+              <h3>{analytics?.total_jobs_tracked || 0}</h3>
+              <p>Jobs Tracked</p>
             </div>
           </div>
         </section>

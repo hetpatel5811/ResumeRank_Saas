@@ -1,0 +1,78 @@
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.tool-card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+}
+
+.tool-card h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+}
+
+.tool-form {
+  display: grid;
+  gap: 10px;
+}
+
+.tool-form input,
+.tool-form select,
+.tool-form textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.tool-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.tool-result {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-muted);
+  padding: 12px;
+}
+
+.tool-result pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: "Source Sans 3", sans-serif;
+  line-height: 1.5;
+}
+
+.tool-result ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.tool-result li {
+  margin-bottom: 8px;
+}
+
+.tool-bullet-item {
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+.tool-bullet-item p {
+  margin: 0 0 6px;
+}
+
+@media (max-width: 980px) {
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+}

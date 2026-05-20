@@ -44,6 +44,40 @@ class SuggestionResponse(BaseModel):
         from_attributes = True
 
 
+class ATSAuditCheckResponse(BaseModel):
+    check_id: str
+    title: str
+    status: str
+    severity: str
+    message: str
+
+
+class ATSAuditResponse(BaseModel):
+    score: int
+    checks: List[ATSAuditCheckResponse]
+    high_impact_fixes: List[str]
+
+
+class WeightedCategoryResponse(BaseModel):
+    category: str
+    score: int
+    weight: float
+    contribution: float
+
+
+class ImprovementAreaResponse(BaseModel):
+    category: str
+    score: int
+    potential_lift: float
+
+
+class ScoreDiagnosticsResponse(BaseModel):
+    weighted_breakdown: List[WeightedCategoryResponse]
+    top_improvement_areas: List[ImprovementAreaResponse]
+    high_impact_keywords: List[str]
+    high_impact_skills: List[str]
+
+
 class ScanResultResponse(BaseModel):
     scan_id: UUID
     resume_filename: str
@@ -60,6 +94,8 @@ class ScanResultResponse(BaseModel):
     missing_skills: List[str]
 
     suggestions: List[SuggestionResponse]
+    ats_audit: ATSAuditResponse
+    score_diagnostics: ScoreDiagnosticsResponse
 
 
 class ScanHistoryItem(BaseModel):
@@ -90,3 +126,5 @@ class ScanDetailResponse(BaseModel):
     missing_skills: List[str]
 
     suggestions: List[SuggestionResponse]
+    ats_audit: ATSAuditResponse
+    score_diagnostics: ScoreDiagnosticsResponse

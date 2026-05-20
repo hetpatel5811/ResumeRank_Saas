@@ -101,6 +101,46 @@ function Result() {
           </div>
         </section>
 
+        {result.score_diagnostics && (
+          <section className="result-two-col">
+            <div className="badge-box">
+              <h3>Top Improvement Areas</h3>
+              <div className="suggestion-list">
+                {result.score_diagnostics.top_improvement_areas.map((item, index) => (
+                  <div className="suggestion-card medium" key={`${item.category}-${index}`}>
+                    <div>
+                      <div className="suggestion-meta">
+                        <span>{item.category}</span>
+                        <small>{item.score}%</small>
+                      </div>
+                      <p>
+                        Potential score lift: {item.potential_lift}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="badge-box">
+              <h3>ATS Audit ({result.ats_audit?.score || 0}%)</h3>
+              <div className="suggestion-list">
+                {(result.ats_audit?.checks || []).map((check) => (
+                  <div className={`suggestion-card ${check.status === "fail" ? "high" : check.status === "warn" ? "medium" : "low"}`} key={check.check_id}>
+                    <div>
+                      <div className="suggestion-meta">
+                        <span>{check.title}</span>
+                        <small>{check.status}</small>
+                      </div>
+                      <p>{check.message}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="result-two-col">
           <BadgeList
             title="Matched Skills"

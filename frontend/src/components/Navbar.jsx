@@ -5,6 +5,8 @@ import {
   FileSearch,
   History,
   CreditCard,
+  ListTodo,
+  WandSparkles,
   LogOut,
 } from "lucide-react";
 
@@ -18,6 +20,8 @@ function Navbar() {
   const isAnalyze = pathname.startsWith("/analyze");
   const isHistory = pathname.startsWith("/history") || pathname.startsWith("/result");
   const isBilling = pathname.startsWith("/billing");
+  const isJobs = pathname.startsWith("/jobs");
+  const isTools = pathname.startsWith("/tools");
 
   const logout = () => {
     localStorage.removeItem("resume_rank_token");
@@ -55,6 +59,16 @@ function Navbar() {
         <Link className={isBilling ? "active" : ""} to="/billing">
           <CreditCard size={20} />
           Billing
+        </Link>
+
+        <Link className={isJobs ? "active" : ""} to="/jobs">
+          <ListTodo size={20} />
+          Job Tracker
+        </Link>
+
+        <Link className={isTools ? "active" : ""} to="/tools">
+          <WandSparkles size={20} />
+          Career Tools
         </Link>
       </nav>
 

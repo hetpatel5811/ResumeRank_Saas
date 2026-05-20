@@ -17,3 +17,4 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     scans = relationship("Scan", back_populates="user")
     job_descriptions = relationship("JobDescription", back_populates="user")
+    job_applications = relationship("JobApplication", back_populates="user")

@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     RAZORPAY_PLUS_PLAN_ID: str | None = None
     RAZORPAY_PRO_PLAN_ID: str | None = None
 
+    OPENAI_API_KEY: str | None = None
+    OPENAI_SUPPORT_MODEL: str = "gpt-5-mini"
+
     class Config:
         env_file = ".env"
 
