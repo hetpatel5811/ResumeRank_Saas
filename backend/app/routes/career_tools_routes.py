@@ -11,10 +11,14 @@ from app.schemas.career_schema import (
     InterviewPracticeResponse,
     LinkedInOptimizeRequest,
     LinkedInOptimizeResponse,
+    OutreachEmailRequest,
+    OutreachEmailResponse,
 )
 from app.services.career_tools_service import (
     generate_cover_letter,
     generate_interview_questions,
+    generate_follow_up_email,
+    generate_thank_you_email,
     optimize_linkedin_profile,
     optimize_resume_bullets,
 )
@@ -75,5 +79,37 @@ def optimize_bullets(
     result = optimize_resume_bullets(
         bullet_points=payload.bullet_points,
         job_description=payload.job_description,
+    )
+    return result
+
+
+@router.post("/follow-up-email", response_model=OutreachEmailResponse)
+def follow_up_email(
+    payload: OutreachEmailRequest,
+    current_user: User = Depends(get_current_user),
+):
+    _ = current_user
+    result = generate_follow_up_email(
+        target_role=payload.target_role,
+        company_name=payload.company_name,
+        context_notes=payload.context_notes,
+        highlights=payload.highlights,
+        tone=payload.tone,
+    )
+    return result
+
+
+@router.post("/thank-you-email", response_model=OutreachEmailResponse)
+def thank_you_email(
+    payload: OutreachEmailRequest,
+    current_user: User = Depends(get_current_user),
+):
+    _ = current_user
+    result = generate_thank_you_email(
+        target_role=payload.target_role,
+        company_name=payload.company_name,
+        context_notes=payload.context_notes,
+        highlights=payload.highlights,
+        tone=payload.tone,
     )
     return result

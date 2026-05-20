@@ -1,6 +1,6 @@
 .jobs-summary-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 10px;
   margin-bottom: 14px;
 }
@@ -69,6 +69,27 @@
   gap: 10px;
 }
 
+.jobs-filters-card {
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1.3fr repeat(2, minmax(0, 0.5fr));
+  gap: 10px;
+}
+
+.jobs-filters-card input,
+.jobs-filters-card select {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
 .job-item {
   padding: 14px;
   display: flex;
@@ -90,10 +111,55 @@
   color: var(--ink-faint);
 }
 
+.job-item-meta {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.job-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #f8fafc;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.job-chip.link-chip {
+  color: var(--primary-strong);
+  border-color: #d5e3ff;
+  background: #eff4ff;
+}
+
+.job-chip.urgency-overdue {
+  color: #991b1b;
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+.job-chip.urgency-due_soon {
+  color: #92400e;
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
+.job-chip.urgency-upcoming {
+  color: #14532d;
+  border-color: #bbf7d0;
+  background: #ecfdf3;
+}
+
 .job-item-actions {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .job-item-actions select {
@@ -103,21 +169,35 @@
   text-transform: capitalize;
 }
 
+.compact-btn {
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 @media (max-width: 900px) {
-  .jobs-summary-grid,
   .jobs-form-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .jobs-filters-card {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 680px) {
-  .jobs-summary-grid,
   .jobs-form-grid {
     grid-template-columns: 1fr;
   }
+}
 
+@media (max-width: 560px) {
   .job-item {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .job-item-actions {
+    width: 100%;
   }
 }

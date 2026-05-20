@@ -248,6 +248,41 @@
   overflow: hidden;
 }
 
+.history-controls-card {
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1.2fr repeat(3, minmax(0, 0.8fr)) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.history-controls-card input,
+.history-controls-card select {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.history-export-btn {
+  white-space: nowrap;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.history-insight-row {
+  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .history-table-card table {
   width: 100%;
   border-collapse: collapse;
@@ -336,6 +371,10 @@
     align-items: flex-start;
   }
 
+  .history-controls-card {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .history-table-card {
     overflow-x: auto;
   }
@@ -352,5 +391,10 @@
   .suggestions-section,
   .history-table-card {
     border-radius: 12px;
+  }
+
+  .history-controls-card,
+  .history-insight-row {
+    grid-template-columns: 1fr;
   }
 }

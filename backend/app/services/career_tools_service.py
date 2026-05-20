@@ -163,3 +163,99 @@ def optimize_resume_bullets(bullet_points: List[str], job_description: str) -> D
         "optimized_bullets": optimized,
         "keywords_used": selected_keywords,
     }
+
+
+def _tone_opening(tone: str) -> str:
+    return {
+        "professional": "I hope you are doing well.",
+        "warm": "I hope your week is going great.",
+        "concise": "I hope you are well.",
+    }.get(tone, "I hope you are doing well.")
+
+
+def _tone_close(tone: str) -> str:
+    return {
+        "professional": "Thank you for your time and consideration.",
+        "warm": "Thanks again for your time and support.",
+        "concise": "Thanks for your time.",
+    }.get(tone, "Thank you for your time and consideration.")
+
+
+def _format_highlights(highlights: List[str]) -> str:
+    clean_points = [point.strip() for point in highlights if point and point.strip()]
+    if not clean_points:
+        clean_points = [
+            "Strong role alignment with the posted requirements",
+            "Relevant project outcomes with measurable impact",
+        ]
+
+    lines = [f"- {item}" for item in clean_points[:3]]
+    return "\n".join(lines)
+
+
+def generate_follow_up_email(
+    target_role: str,
+    company_name: str,
+    context_notes: str,
+    highlights: List[str],
+    tone: str,
+) -> Dict:
+    subject = f"Follow-up on {target_role} application - {company_name}"
+    highlight_block = _format_highlights(highlights)
+
+    body = (
+        f"Hi Hiring Team,\n\n"
+        f"{_tone_opening(tone)} I wanted to follow up on my application for the "
+        f"{target_role} role at {company_name}. {context_notes.strip()}\n\n"
+        f"I believe I can contribute quickly in this role, especially through:\n"
+        f"{highlight_block}\n\n"
+        f"{_tone_close(tone)}\n\n"
+        "Best regards,\n"
+        "[Your Name]"
+    )
+
+    checklist = [
+        "Replace [Your Name] and add your contact details.",
+        "Mention exact application or interview date if available.",
+        "Keep follow-up under 140 words for better response rates.",
+    ]
+
+    return {
+        "subject": subject,
+        "body": body,
+        "checklist": checklist,
+    }
+
+
+def generate_thank_you_email(
+    target_role: str,
+    company_name: str,
+    context_notes: str,
+    highlights: List[str],
+    tone: str,
+) -> Dict:
+    subject = f"Thank you - {target_role} interview"
+    highlight_block = _format_highlights(highlights)
+
+    body = (
+        f"Hi Interview Panel,\n\n"
+        f"{_tone_opening(tone)} Thank you for taking the time to speak with me about the "
+        f"{target_role} role at {company_name}. {context_notes.strip()}\n\n"
+        f"I enjoyed discussing how I can help with:\n"
+        f"{highlight_block}\n\n"
+        f"{_tone_close(tone)} I would be excited to contribute to your team.\n\n"
+        "Best regards,\n"
+        "[Your Name]"
+    )
+
+    checklist = [
+        "Send within 24 hours of your interview.",
+        "Reference one specific discussion point for personalization.",
+        "Keep the tone positive and concise.",
+    ]
+
+    return {
+        "subject": subject,
+        "body": body,
+        "checklist": checklist,
+    }

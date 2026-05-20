@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -63,6 +64,10 @@ def get_job_tracker_summary(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    now_utc = datetime.now(timezone.utc)
+    next_week = now_utc + timedelta(days=7)
+    open_statuses = ("saved", "applied", "screening", "interview")
+
     rows = (
         db.query(JobApplication.status)
         .filter(JobApplication.user_id == current_user.id)
@@ -73,9 +78,34 @@ def get_job_tracker_summary(
     for (status_value,) in rows:
         counts[status_value] = counts.get(status_value, 0) + 1
 
+    overdue_follow_ups = (
+        db.query(JobApplication.id)
+        .filter(
+            JobApplication.user_id == current_user.id,
+            JobApplication.follow_up_at.isnot(None),
+            JobApplication.follow_up_at < now_utc,
+            JobApplication.status.in_(open_statuses),
+        )
+        .count()
+    )
+
+    due_next_7_days = (
+        db.query(JobApplication.id)
+        .filter(
+            JobApplication.user_id == current_user.id,
+            JobApplication.follow_up_at.isnot(None),
+            JobApplication.follow_up_at >= now_utc,
+            JobApplication.follow_up_at <= next_week,
+            JobApplication.status.in_(open_statuses),
+        )
+        .count()
+    )
+
     return {
         "total": len(rows),
         "by_status": counts,
+        "overdue_follow_ups": overdue_follow_ups,
+        "due_next_7_days": due_next_7_days,
     }
 
 

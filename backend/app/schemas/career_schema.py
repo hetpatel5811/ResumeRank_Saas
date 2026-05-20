@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Literal, Optional
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 JobStatus = Literal[
@@ -57,13 +57,15 @@ class JobApplicationResponse(BaseModel):
 class JobTrackerSummary(BaseModel):
     total: int
     by_status: dict[str, int]
+    overdue_follow_ups: int
+    due_next_7_days: int
 
 
 class CoverLetterRequest(BaseModel):
     target_role: str
     company_name: str
     job_description: str
-    resume_points: list[str] = []
+    resume_points: list[str] = Field(default_factory=list)
     tone: Literal["professional", "confident", "concise"] = "professional"
 
 
@@ -113,3 +115,17 @@ class BulletOptimizeItem(BaseModel):
 class BulletOptimizeResponse(BaseModel):
     optimized_bullets: list[BulletOptimizeItem]
     keywords_used: list[str]
+
+
+class OutreachEmailRequest(BaseModel):
+    target_role: str
+    company_name: str
+    context_notes: str
+    highlights: list[str] = Field(default_factory=list)
+    tone: Literal["professional", "warm", "concise"] = "professional"
+
+
+class OutreachEmailResponse(BaseModel):
+    subject: str
+    body: str
+    checklist: list[str]

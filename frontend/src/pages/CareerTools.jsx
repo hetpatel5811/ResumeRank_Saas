@@ -34,6 +34,15 @@ function CareerTools() {
   });
   const [bulletResult, setBulletResult] = useState(null);
 
+  const [emailForm, setEmailForm] = useState({
+    target_role: "",
+    company_name: "",
+    context_notes: "",
+    highlights: "",
+    tone: "professional",
+  });
+  const [emailResult, setEmailResult] = useState(null);
+
   const callTool = async (request) => {
     setLoading(true);
     setError("");
@@ -88,6 +97,36 @@ function CareerTools() {
         job_description: bulletForm.job_description,
       });
       setBulletResult(res.data);
+    });
+  };
+
+  const buildEmailPayload = () => ({
+    ...emailForm,
+    highlights: emailForm.highlights
+      .split("\n")
+      .map((item) => item.trim())
+      .filter(Boolean),
+  });
+
+  const generateFollowUpEmail = (event) => {
+    event.preventDefault();
+    callTool(async () => {
+      const res = await api.post("/api/tools/follow-up-email", buildEmailPayload());
+      setEmailResult({
+        ...res.data,
+        template_type: "Follow-up Email",
+      });
+    });
+  };
+
+  const generateThankYouEmail = (event) => {
+    event.preventDefault();
+    callTool(async () => {
+      const res = await api.post("/api/tools/thank-you-email", buildEmailPayload());
+      setEmailResult({
+        ...res.data,
+        template_type: "Thank-you Email",
+      });
     });
   };
 
@@ -244,6 +283,74 @@ function CareerTools() {
                     <p><strong>Optimized:</strong> {item.optimized}</p>
                   </div>
                 ))}
+              </div>
+            )}
+          </article>
+
+          <article className="tool-card">
+            <h2>Application Email Templates</h2>
+            <form className="tool-form">
+              <input
+                placeholder="Target Role"
+                value={emailForm.target_role}
+                onChange={(e) => setEmailForm((prev) => ({ ...prev, target_role: e.target.value }))}
+                required
+              />
+              <input
+                placeholder="Company Name"
+                value={emailForm.company_name}
+                onChange={(e) => setEmailForm((prev) => ({ ...prev, company_name: e.target.value }))}
+                required
+              />
+              <select
+                value={emailForm.tone}
+                onChange={(e) => setEmailForm((prev) => ({ ...prev, tone: e.target.value }))}
+              >
+                <option value="professional">professional</option>
+                <option value="warm">warm</option>
+                <option value="concise">concise</option>
+              </select>
+              <textarea
+                placeholder="Context notes (application date, interviewer name, specific discussion points)"
+                value={emailForm.context_notes}
+                onChange={(e) => setEmailForm((prev) => ({ ...prev, context_notes: e.target.value }))}
+                required
+              />
+              <textarea
+                placeholder="Highlights to mention (one per line)"
+                value={emailForm.highlights}
+                onChange={(e) => setEmailForm((prev) => ({ ...prev, highlights: e.target.value }))}
+              />
+              <div className="tool-actions-row">
+                <button
+                  className="primary-btn"
+                  type="button"
+                  onClick={generateFollowUpEmail}
+                  disabled={loading}
+                >
+                  {loading ? "Generating..." : "Generate Follow-up Email"}
+                </button>
+                <button
+                  className="secondary-link"
+                  type="button"
+                  onClick={generateThankYouEmail}
+                  disabled={loading}
+                >
+                  {loading ? "Generating..." : "Generate Thank-you Email"}
+                </button>
+              </div>
+            </form>
+
+            {emailResult && (
+              <div className="tool-result">
+                <p><strong>Template:</strong> {emailResult.template_type}</p>
+                <p><strong>Subject:</strong> {emailResult.subject}</p>
+                <pre>{emailResult.body}</pre>
+                <ul>
+                  {(emailResult.checklist || []).map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
               </div>
             )}
           </article>
