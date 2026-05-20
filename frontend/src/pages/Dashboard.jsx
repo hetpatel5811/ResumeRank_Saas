@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FileSearch, History, TrendingUp, Gauge } from "lucide-react";
+import { FileSearch, History, TrendingUp, Gauge, Sparkles } from "lucide-react";
 import Navbar from "../components/Navbar";
 import api from "../api/api";
 
@@ -25,6 +25,7 @@ function Dashboard() {
   }, []);
 
   const latestScore = history.length > 0 ? history[0].overall_score : null;
+  const userPlan = (user?.plan || "free").toUpperCase();
 
   return (
     <div className="app-shell">
@@ -47,6 +48,11 @@ function Dashboard() {
               <Link to="/history" className="secondary-link">
                 View History
               </Link>
+              {userPlan === "FREE" && (
+                <Link to="/billing" className="secondary-link">
+                  Upgrade Plan
+                </Link>
+              )}
             </div>
           </div>
 
@@ -79,6 +85,14 @@ function Dashboard() {
             <div>
               <h3>{history.length}</h3>
               <p>Saved Results</p>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <Sparkles />
+            <div>
+              <h3>{userPlan}</h3>
+              <p>Current Plan</p>
             </div>
           </div>
         </section>

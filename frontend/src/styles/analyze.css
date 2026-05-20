@@ -138,6 +138,10 @@
   min-height: 46px;
 }
 
+.upgrade-plan-btn {
+  width: 100%;
+}
+
 .analyze-btn:disabled {
   opacity: 0.75;
   cursor: not-allowed;

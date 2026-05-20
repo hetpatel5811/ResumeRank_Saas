@@ -161,12 +161,10 @@ from app.schemas.scan_schema import ScanResultResponse, ScanDetailResponse, Scan
 from app.services.file_parser import save_upload_file, extract_resume_text
 from app.services.scoring_engine import run_resume_scoring, extract_top_keywords
 from app.services.suggestion_engine import generate_suggestions
+from app.services.plan_service import get_scan_limit_for_plan
 
 
 router = APIRouter(prefix="/api/scans", tags=["Scans"])
-
-
-FREE_PLAN_SCAN_LIMIT = 3
 
 
 def build_scan_response(scan: Scan, score_result: ScoreResult, suggestions):
@@ -193,11 +191,12 @@ def analyze_resume(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    # Free plan limit
-    if current_user.plan == "free" and current_user.scan_count >= FREE_PLAN_SCAN_LIMIT:
+    scan_limit = get_scan_limit_for_plan(current_user.plan)
+
+    if scan_limit is not None and current_user.scan_count >= scan_limit:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Free plan scan limit reached. Upgrade to Pro for unlimited scans."
+            detail="Your current plan scan limit is reached. Upgrade to Plus or Pro to continue."
         )
 
     allowed_extensions = [".pdf", ".docx"]

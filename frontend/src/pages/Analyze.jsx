@@ -10,6 +10,7 @@ function Analyze() {
   const [jobDescription, setJobDescription] = useState("");
   const [resume, setResume] = useState(null);
   const [error, setError] = useState("");
+  const [showUpgradeCta, setShowUpgradeCta] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleAnalyze = async (e) => {
@@ -21,6 +22,7 @@ function Analyze() {
     }
 
     setError("");
+    setShowUpgradeCta(false);
     setLoading(true);
 
     const formData = new FormData();
@@ -36,7 +38,9 @@ function Analyze() {
 
       navigate(`/result/${res.data.scan_id}`);
     } catch (err) {
-      setError(err.response?.data?.detail || "Resume analysis failed");
+      const detail = err.response?.data?.detail || "Resume analysis failed";
+      setError(detail);
+      setShowUpgradeCta(err.response?.status === 403);
     } finally {
       setLoading(false);
     }
@@ -98,6 +102,16 @@ function Analyze() {
             </div>
 
             {error && <div className="error-box">{error}</div>}
+
+            {showUpgradeCta && (
+              <button
+                type="button"
+                className="secondary-link upgrade-plan-btn"
+                onClick={() => navigate("/billing")}
+              >
+                Upgrade Plan
+              </button>
+            )}
 
             <button className="analyze-btn" disabled={loading}>
               {loading ? "Analyzing..." : "Analyze Resume"}

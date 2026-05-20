@@ -6,6 +6,13 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    FRONTEND_URL: str = "http://localhost:5173"
+
+    RAZORPAY_KEY_ID: str | None = None
+    RAZORPAY_KEY_SECRET: str | None = None
+    RAZORPAY_WEBHOOK_SECRET: str | None = None
+    RAZORPAY_PLUS_PLAN_ID: str | None = None
+    RAZORPAY_PRO_PLAN_ID: str | None = None
 
     class Config:
         env_file = ".env"

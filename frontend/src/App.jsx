@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Analyze from "./pages/Analyze";
 import Result from "./pages/Result";
 import History from "./pages/History";
+import Billing from "./pages/Billing";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -48,6 +49,15 @@ function App() {
         element={
           <ProtectedRoute>
             <History />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/billing"
+        element={
+          <ProtectedRoute>
+            <Billing />
           </ProtectedRoute>
         }
       />

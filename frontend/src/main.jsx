@@ -9,6 +9,7 @@ import "./styles/layout.css";
 import "./styles/dashboard.css";
 import "./styles/analyze.css";
 import "./styles/result.css";
+import "./styles/billing.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

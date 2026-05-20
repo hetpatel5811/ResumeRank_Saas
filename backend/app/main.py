@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine
 from app.routes.auth_routes import router as auth_router
+from app.routes.billing_routes import router as billing_router
 from app.routes.scan_routes import router as scan_router
 
 from app.models import user, job_description, scan, score_result, suggestion
@@ -41,4 +42,5 @@ def health_check():
 
 
 app.include_router(auth_router)
+app.include_router(billing_router)
 app.include_router(scan_router)
